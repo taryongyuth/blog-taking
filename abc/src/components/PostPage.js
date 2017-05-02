@@ -1,24 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { fetchPosts } from './actions';
+import { fetchPosts } from '../actions';
+import { loadState } from '../localStorage'
+import { Redirect } from 'react-router'
 
 class PostPage extends Component {
 
-  componentDidMount = () => {
-    const { match } = this.props;
-    if (match.params.id) {
-      this.props.fetchPosts(match.params.id);
-    }
-  }
-
   render() {
+    const { post } = this.props
+
+    let postPage
+    if (post === undefined) {
+      postPage = (<Redirect to="/blog-taking" />)
+    } else {
+      postPage = (
+        <div>
+        <center>
+        <h1>{post.title}</h1>
+        <img src={post.cover}></img>
+        <p>{post.content}</p>
+        </center>
+        </div>
+      )
+    }
+
     return (
       <div className="panel panel-success col-sm-8 col-md-offset-2">
-        <div>
-        <h1>{this.props.post.title}</h1>
-        <img src={this.props.post.url}></img>
-        <p>{this.props.post.content}</p>
-        </div>
+        { postPage}
       </div>
     );
   }

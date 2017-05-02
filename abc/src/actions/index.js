@@ -4,7 +4,7 @@ import { loadState } from '../localStorage'
 export const ADD_POST = 'ADD_POST';
 export const SORT_POST = 'SORT_POST';
 export const POST_DELETED = 'POST_DELETED';
-export const FETCH_POST = 'FETCH_POST';
+export const SAVE_POST = 'SAVE_POST';
 
 export function addPost(posts) {
   return {
@@ -20,11 +20,10 @@ export function deletePost(postId) {
   }
 }
 
-export function fetchPosts(postId) {
+export function savePost(data) {
   return{
-    type: FETCH_POST,
-    postId,
-    loadState: loadState()
+    type: SAVE_POST,
+    posts: Object.assign({}, loadState(), data, {id: v4()})
   }
 }
 

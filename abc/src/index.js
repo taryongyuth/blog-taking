@@ -1,34 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import PostForm from './PostForm';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import rootReducer from './rootReducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import PostForm from './components/PostForm';
 import { Provider } from 'react-redux';
-import { loadState, saveState } from './localStorage'
-import throttle from 'lodash/throttle'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+// import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'; // eslint-disable-line no-unused-vars
+import '../node_modules/react-datepicker/dist/react-datepicker.css'; // eslint-disable-line no-unused-vars
+import '../node_modules/react-datepicker/dist/react-datepicker-cssmodules.css'; // eslint-disable-line no-unused-vars
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import ConfigurationStore from './ConfigurationStore'
 
-const persitstedState = loadState();
-const store = createStore(
-  rootReducer,
-  persitstedState,
-  composeWithDevTools(
-    applyMiddleware(thunk)
-  ),
-)
-
-store.subscribe(throttle(() => {
-  saveState({
-    posts: store.getState().posts
-  })
-}, 1000))
+const store = ConfigurationStore()
 
 ReactDOM.render(
   <Router>

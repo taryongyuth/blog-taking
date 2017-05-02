@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 export default function Post({ post, deletePost }) {
 
@@ -12,14 +13,14 @@ export default function Post({ post, deletePost }) {
             <a className="list-group-item">
               <h2>{post.title}</h2>
               <Link to={`/post/${post.id}`}>
-              <img style={{"width":"100%", "height": "230px"}} src={post.url}></img>
+              <img style={{"width":"100%", "height": "230px"}} src={post.cover}></img>
               </Link>
               <blockquote>
-                  <p>{content}<Link to={`/post/${post.id}`}>...( ReadMore )</Link></p>
-                    <small> on May 2, 2017</small>
+                  <Link to={`/post/${post.id}`}><p>{content} ...( ReadMore )</p></Link>
+                    <small>{moment(post.startDate).format('MM/DD/YYYY')}</small>
                     <div className="btn-group pull-right">
                       <button className="btn btn-danger btn-sm pull-right" type="button" onClick={() => deletePost(post.id)}><span className="glyphicon glyphicon-trash"></span> Delete </button>
-                      <Link to={`/post/new`}><button className="btn btn-primary btn-sm" type="button" ><span className="glyphicon glyphicon-edit"></span>Edit</button></Link>
+                      <Link to={`/edit-post/${post.id}`}><button className="btn btn-primary btn-sm pull-left" type="button" ><span className="glyphicon glyphicon-edit"></span>Edit</button></Link>
                     </div>
               </blockquote>
           </a>
