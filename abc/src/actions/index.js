@@ -27,9 +27,9 @@ export function savePost(data) {
   }
 }
 
-export function sortPost(posts) {
+export function sortPost() {
   return {
     type: SORT_POST,
-    posts: posts
+    posts: loadState()
   }
 }

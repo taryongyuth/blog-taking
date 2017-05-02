@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchPosts } from '../actions';
 import { loadState } from '../localStorage'
 import { Redirect } from 'react-router'
+import { Link } from 'react-router-dom'
 
 class PostPage extends Component {
 
@@ -18,7 +19,8 @@ class PostPage extends Component {
         <center>
         <h1>{post.title}</h1>
         <img src={post.cover}></img>
-        <p>{post.content}</p>
+        <div><td dangerouslySetInnerHTML={{__html: post.content}}/></div>
+        <Link to={`blog-taking`}><button className="btn btn-success btn-sm btn-block" type="button">Back To Main Page</button></Link>
         </center>
         </div>
       )

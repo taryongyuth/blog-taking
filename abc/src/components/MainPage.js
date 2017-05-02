@@ -3,16 +3,59 @@ import ListPost from './ListPost'
 import {connect} from 'react-redux'
 import { addPost, sortPost, deletePost } from '../actions'
 import PostForm from './PostForm'
+import moment from 'moment'
 import { Link, Route } from 'react-router-dom';
 
 class MainPage extends Component {
 
-  componentDidMount(){
-    this.props.addPost({
-      "title": "CAT",
-      "cover": "http://www.cats.org.uk/uploads/branches/1/environment-faqs.jpg",
-      "content": "Plus, you can now set your own date range for data—select from previous month or week or set your own custom dates.Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui."
-    })
+  state = {
+    posts: this.props.posts,
+    ascTitle: true,
+    ascDate: true
+  }
+
+  handleSortbyTitle = () => {
+    if (this.state.ascTitle) {
+      this.setState({
+        posts: this.state.posts.sort(function(a, b) {
+               let titleA = a.title.toUpperCase();
+               let titleB = b.title.toUpperCase();
+              return (titleA < titleB) ? -1 : (titleA > titleB) ? 1 : 0;
+        }),
+        ascTitle: !this.state.ascTitle
+      })
+    } else {
+      this.setState({
+        posts: this.state.posts.sort(function(a, b) {
+          var titleA = a.title.toUpperCase();
+          var titleB = b.title.toUpperCase();
+        return (titleA < titleB) ? 1 : (titleA > titleB) ? -1 : 0;
+      }),
+      ascTitle: !this.state.ascTitle
+      })
+    }
+  }
+
+  handleSortbyDate = () => {
+    if (this.state.ascDate) {
+      this.setState({
+        posts: this.state.posts.sort(function(a, b) {
+          var dateA = moment(a.startDate)
+          var dateB = moment(b.startDate)
+        return (dateA < dateB) ? -1 : (dateA > dateB) ? 1 : 0;
+      }),
+      ascDate: !this.state.ascDate
+      })
+    } else {
+      this.setState({
+        posts: this.state.posts.sort(function(a, b) {
+          var dateA = moment(a.startDate)
+          var dateB = moment(b.startDate)
+        return (dateA < dateB) ? 1 : (dateA > dateB) ? -1 : 0;
+      }),
+      ascDate: !this.state.ascDate
+      })
+    }
   }
 
   render() {
@@ -26,9 +69,13 @@ class MainPage extends Component {
         <div className="row">
             <center>
               <p>Sort By</p>
-              <ul className="breadcrumb col-sm-4 col-md-offset-4">
-                <li><a href="#">Title</a></li>
-                <li><a href="#">Date</a></li>
+              <ul className="breadcrumb col-sm-4 col-sm-offset-4">
+                <li>
+                  <a style={{"cursor": "pointer"}} onClick={this.handleSortbyTitle}><i className={(this.state.ascTitle) ? "fa fa-sort-asc fa-x" : "fa fa-sort-desc fa-x"} /> Title</a>
+                </li>
+                <li>
+                  <a style={{"cursor": "pointer"}} onClick={this.handleSortbyDate}>Date <i className={(this.state.ascDate) ? "fa fa-sort-asc fa-x" : "fa fa-sort-desc fa-x"} /></a>
+                </li>
               </ul>
             </center>
             <br/>

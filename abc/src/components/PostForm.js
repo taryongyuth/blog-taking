@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import { savePost, deletePost } from '../actions';
 import classnames from 'classnames'
 import { Redirect } from 'react-router'
+import { Link } from 'react-router-dom'
 import  DatePicker from 'react-datepicker'
 import moment from 'moment'
-// import { Editor } from 'react-draft-wysiwyg';
-// import { EditorState } from 'draft-js';
-
-// import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import TinyMCE from 'react-tinymce';
 
 class PostForm extends React.Component {
 
@@ -74,11 +72,24 @@ class PostForm extends React.Component {
       this.setState({ isOpen: !this.state.isOpen})
     }
 
+    handleEditorChange = (e) => {
+      if (!!this.state.errors.content) {
+        let errors = Object.assign({}, this.state.errors)
+        delete errors.content
+        this.setState({
+          content : e.target.getContent(),
+          errors
+        })
+      } else{
+        this.setState({ content: e.target.getContent()})
+      }
+  }
+
 render() {
 
   const form = (
     <form className="col-sm-8 col-md-offset-2" onSubmit={this.handleSubmit}>
-      <h1 className="control-label">Create New Post</h1>
+      <h1 className="control-label">Form Post</h1>
 
     <div className={classnames('form-group', { "has-error": !!this.state.errors.title })}>
       <label className="control-label" htmlFor="title">Title</label>
@@ -89,18 +100,6 @@ render() {
              onChange={this.handleChange}
       />
       <span>{this.state.errors.title}</span>
-    </div>
-
-    <div className={classnames('form-group', { "has-error": !!this.state.errors.content })}>
-      <label className="control-label" htmlFor="content">Content</label>
-      <textarea className="form-control"
-             rows="4"
-             name="content"
-             id="content"
-             value={this.state.content}
-             onChange={this.handleChange}
-      />
-      <span>{this.state.errors.content}</span>
     </div>
 
     <div className={classnames('form-group', { "has-error": !!this.state.errors.startDate })}>
@@ -129,6 +128,21 @@ render() {
     <div className="form-group">
       {this.state.cover !== '' && <img src={this.state.cover} alt="cover" />}
     </div>
+
+    <div className={classnames('form-group', { "has-error": !!this.state.errors.content })}>
+    <label className="control-label" htmlFor="content">Content</label>
+    <br/>
+    <span>{this.state.errors.content}</span>
+    <TinyMCE
+        content={this.state.content}
+        config={{
+          plugins: 'link image code',
+          toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+        }}
+        onChange={this.handleEditorChange}
+      /><br/>
+    </div>
+
 
   <hr />
   <div className="form-group">

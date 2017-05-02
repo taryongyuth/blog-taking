@@ -17,7 +17,7 @@ class App extends Component {
           <nav className="navbar navbar-default">
             <div className="container-fluid">
               <div className="navbar-header">
-                <a className="navbar-brand"><ActiveLink activeOnlyWhenExact to="/blog-taking/" label="Home" /></a>
+                <a className="navbar-brand pull-right"><ActiveLink activeOnlyWhenExact to="/blog-taking/" label="Home" /></a>
               </div>
               <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1"></div>
             </div>
