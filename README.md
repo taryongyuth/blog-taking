@@ -5,13 +5,18 @@ Created by Using React Redux etc.
 Get Started Immediately with 'react-create-app'
 
 You don’t need to install or configure tools like Webpack or Babel.
-They are preconfigured and hidden
+They are preconfigured and hidden.
 
+Installation:
+npm install
+
+RUN:
 npm start or yarn start
 
 Runs the app in development mode.
 Open http://localhost:3000 to view it in the browser.
 
+BUILD:
 npm run build or yarn build
 
 Builds the app for production to the build folder.
